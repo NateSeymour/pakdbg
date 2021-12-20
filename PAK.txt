@@ -1,0 +1,28 @@
+HEADER (12B):
+
+    0 - 3B Magic (STR) = "PAK" (0x50414B)
+    3 - 1B Version (UINT) = Always zero?
+    4 - 4B Header Size (INT32)
+    8 - Data Size (INT32)
+
+DIRECTORY LISTING: Array of file items
+
+    1B Size of file name
+    xB File name
+    1B Flags
+        0x1 = IS_DIRECTORY
+        0x2 = DATA_POSITION_IS_DOUBLE
+
+    IS_DIRECTORY:
+        4B Children Count (INT32)
+        [Children]
+    
+    !IS_DIRECTORY:
+        4B/8B Data Position (INT32/DOUBLE) = Negatively offsetted by header size (16B)
+        4B Data Size (INT32)
+        4B Checksum (INT32)
+
+DATA:
+
+    4B Magic (STR) = "DATA"
+    [array of files as binary blobs]
